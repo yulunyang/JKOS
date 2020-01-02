@@ -96,8 +96,9 @@ export default {
       let self = this
       if (self.password && self.account) {
         if (self.password.length >= 6) {
-          var repeat = 0
           let pwdArr = []
+          var answer
+          let accountItem = self.account.split('')
           for (let i = 0; i < self.password.length; i++) {
             let pwd = self.password.split('')
             let pwdStr = pwd.splice(i, 6)
@@ -105,23 +106,20 @@ export default {
               pwdArr.push(pwdStr)
             }
           }
-          let accountStr = self.account.split('')
-          for (var item of pwdArr) {
-            for (var str of accountStr) {
-              if (item.indexOf(str) !== -1) {
-                repeat += 1
-                // if (repeat === 6) {
-                //   return repeat === 6
-                // }
-              }
-            }
-          }
-          if (repeat >= 6) {
+          pwdArr.forEach(function (item, index, array) {
+            accountItem.forEach(function (accountItem, index, array) {
+              answer = item.find(function (item, index, array) {
+                return item === accountItem
+              })
+            })
+          })
+          if (!answer) {
             alert('不通過')
           } else {
             alert('通過')
           }
         } else if (self.password.length < 6) {
+          console.log('長度小於6')
           for (let i = 0; i < self.password.length; i++) {
             if (self.account.indexOf(self.password) !== -1) {
               alert('通過')
